@@ -11,6 +11,7 @@ const session = require("express-session");
 const passport = require("passport");
 const appID = require("bluemix-appid");
 const express_enforces_ssl = require("express-enforces-ssl");
+let user_email = '';
 
 // const dotenv = require('dotenv');
 // dotenv.config();
@@ -19,8 +20,8 @@ var miscAttr = JSON.parse(process.env.MISC);
 var APPID_CONFIG = JSON.parse(process.env.APPID_SERVICE_BINDING);
 const PORT = process.env.PORT;
 const SNOW_HOSTNAME = "https://ibmwssdemo2.service-now.com";
-const SNOW_USERNAME = "xxxxxxx";
-const SNOW_PASSWORD = "xxxxxxxx";
+const SNOW_USERNAME = "xxxxxx";
+const SNOW_PASSWORD = "xxxxxxx";
 
 const sessionObj = {
   secret: "keyboardcat",
@@ -117,6 +118,7 @@ app.get('/login', (req, res, next) => {
       console.log('Inside req.login() callback')
       console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
       console.log(`req.user: ${JSON.stringify(req.user)}`)      
+      user_email = req.session.APPID_AUTH_CONTEXT.identityTokenPayload.email 
      return res.json({"status":"success", "message":"authentication successful"});
     })
   })(req, res, next);
@@ -139,15 +141,20 @@ app.use(helmet.hsts({
 app.use(helmet.noSniff());
 app.use(nocache());
 
-function getUserDept() {
-  var user_email = req.session.APPID_AUTH_CONTEXT.identityTokenPayload.email   
+getUserDept().then((data) => {
+const response={
+body:JSON.stringify(data)
+};
+return response;
+});
+
+function getUserDept(snowReq) {
   const options = {
             hostname: SNOW_HOSTNAME,
             path: `api/now/table/sys_user?email=${user_email}&sysparm_fields=department`,
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': data.length
+                'Content-Type': 'application/json'
             },
             auth:{
               user: SNOW_USERNAME,
@@ -155,18 +162,21 @@ function getUserDept() {
             }
         };
     
-        const req = https.request(options, (res) => {            
+       snowReq = https.request(options, (res) => { 
+           res.setEncoding('utf-8');
+           let rawData = '';
     
             console.log('Status Code:', res.statusCode);
             console.log('Response headers:', res.headers);
     
-            res.on('data', (d) => {
-              process.stdout.write(d);
+            res.on('data', (chunk) => {
+              rawData += chunk;
             });               
     
         }).on("error", (err) => {
             console.log("Error: ", err.message);
         });  
+       snowReq.end();
 
   // resp_dept_link = requests.get(SNOW_USER_URL, auth=HTTPBasicAuth(SNOW_USERNAME, SNOW_PASSWORD)).json()
   // get_department_base_url = resp_dept_link["result"][0]["department"]["link"]    
@@ -178,7 +188,7 @@ app.get('/', (req, res) => {
   console.log('Inside GET / callback')
   console.log(`User authenticated? ${req.isAuthenticated()}`)
   if(req.session['APPID_AUTH_CONTEXT']) {
-   console.log("req.session", req.session["APPID_AUTH_CONTEXT"])
+   console.log("req.session", req.session["APPID_AUTH_CONTEXT"]);
    getUserDept();
    res.sendFile(path.join(__dirname+'/public/HR_JML_TaskList.html'));
   } else {
