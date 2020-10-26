@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head> 
+    <link rel="shortcut icon" href="https://www.ibm.com/favicon.ico">
+    <title>JML Task List</title>
+
+  <link href="https://1.www.s81c.com/common/v18/css/www.css" rel="stylesheet">
+	<link href="https://1.www.s81c.com/common/v18/css/syntaxhighlighter.css" rel="stylesheet">
+	<link href="https://1.www.s81c.com/common/v18/css/grid-fluid.css"  rel="stylesheet">
+	<link href="https://1.www.s81c.com/common/v18/css/forms.css" rel="stylesheet">
+	<link href="https://1.www.s81c.com/common/v18/css/tables.css" rel="stylesheet">
+  <link href="https://1.www.s81c.com/common/v18/css/textcolumns.css" rel="stylesheet">
+  
+    <script src="https://1.www.s81c.com/common/stats/ida_stats.js"></script>
+    <script src="https://1.www.s81c.com/common/v18/js/www.js"></script><style></style>
+    <script src="https://1.www.s81c.com/common/v18/js/syntaxhighlighter.js"></script>
+    <script src="https://1.www.s81c.com/common/v18/js/dyntabs.js"></script>
+    <script src="https://1.www.s81c.com/common/v18/js/forms.js"></script>
+    <script src="https://1.www.s81c.com/common/v18/js/tables.js"></script>
+  
+
+<style>
+    #ibm-overlaywidget-overlayExampleLarge {
+        height: 80%;
+        width: 70%;
+        overflow: hidden;
+    }
+</style>
+       
+    <body id="ibm-com" class="ibm-type">
+        <div class="ibm-columns" data-items=".ibm-card" data-widget="setsameheight">
+            <div class="ibm-card ">
+                <div class="ibm-card__content">
+                    <p class="ibm-ind-link">
+                        <a href="#" 
+                        class="ibm-forward-link ibm-light"
+                        onclick="newJoinerForm()">New Joiner Request
+                        </a>
+                    </p>    
+                </div>
+            </div>
+        </div>
+      </body>
+    </html>
+    <script type="text/javascript" >
+       
+
+      let newJoinerFormVal = "newJoinerForm";
+
+      let domain = "https://microapp-pentest.dws-ipa.com/api/v1/render_form/";
+      const snow_url = "https://ibmwssdemo2.service-now.com";
+
+      const ibm_microapp = {};
+
+      function newJoinerForm() {
+        ibm_microapp.formURLs = domain + "joinerform";
+        window.parent.postMessage(ibm_microapp, snow_url);
+
+        }
+    
+    </script>
+
+    
