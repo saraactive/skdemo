@@ -29,7 +29,6 @@ app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
 
 const isLocal = miscAttr.isLocal;
 const config = getLocalConfig();
@@ -55,6 +54,7 @@ passport.serializeUser(function (user, cb) {
 passport.deserializeUser(function (obj, cb) {
   cb(null, obj);
 });
+
 function getLocalConfig() {
   if (!isLocal) {
     return {};
@@ -130,17 +130,39 @@ app.use(helmet.hsts({
 app.use(helmet.noSniff());
 app.use(nocache());
 
-
 app.get('/', (req, res) => {
   console.log('Inside GET / callback')
   console.log(`User authenticated? ${req.isAuthenticated()}`)
   if(req.session['APPID_AUTH_CONTEXT']) {
    console.log("req.session", req.session["APPID_AUTH_CONTEXT"])
-   res.render('HR_JML_TaskList.html')
+   res.sendFile(path.join(__dirname+'/public/HR_JML_TaskList.html'));
   } else {
     res.redirect('/login')
   }
 });
+
+app.get('/render_form/joinerform', (req, res) => {
+  console.log('Inside GET /render_form/joinerform callback')
+  console.log(`User authenticated? ${req.isAuthenticated()}`)
+  if(req.session['APPID_AUTH_CONTEXT']) {
+   console.log("req.session", req.session["APPID_AUTH_CONTEXT"])
+   res.sendFile(path.join(__dirname+'/public/Joiner_Static_Form.html'));
+  } else {
+    res.redirect('/login')
+  }
+});
+
+app.post('/get_formdata/joinerform', (req, res) => {
+  console.log('Inside POST /get_formdata/joinerform callback')
+  console.log(`User authenticated? ${req.isAuthenticated()}`)
+  if(req.session['APPID_AUTH_CONTEXT']) {
+   console.log("req.session", req.session["APPID_AUTH_CONTEXT"])
+   res.sendFile(path.join(__dirname+'/public/Joiner_Static_Form.html'));
+  } else {
+    res.redirect('/login')
+  }
+});
+
 
 function isLoggedIn(req, res, next) {
   if (req.session["APPID_AUTH_CONTEXT"]) {

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta name="robots" content="index, follow" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="https://www.ibm.com/favicon.ico" />
+
+        <title>New Joiner Request Form</title>
+
+        <!-- Initialize Northstar --> 
+        <link href="https://1.www.s81c.com/common/v18/css/www.css"rel="stylesheet"/>
+        <link href="https://1.www.s81c.com/common/v18/css/grid-fluid.css" rel="stylesheet"/>  
+        <link href="https://1.www.s81c.com/common/v18/css/forms.css" rel="stylesheet">
+         
+    <body id="ibm-com" class="ibm-type" onload="GetRequesterDetail()">               
+            <!-- MASTHEAD_END -->
+            <div id="ibm-content-wrapper" >
+                <!-- HEADER WITH L1 NAVIGATION, LEADSPACE, TAB NAVIGATION -->
+                <main role="main" aria-labelledby="ibm-pagetitle-h1">
+                    <div id="ibm-pcon">
+                        <div id="ibm-content">
+                            <div id="ibm-content-body">
+                                <div id="ibm-content-main">
+                                    <!-- CONTENT & COMPONENTS START -->
+                                    <div class="ibm-fluid ibm-padding-bottom-3">
+				                        <div class="ibm-col-12-12">
+					                    <p class="ibm-h1 ibm-center">New Joiners Form</p>
+					                    </div>
+                                        <form class="ibm-row-form" id="JoinerID" name="joinerform" enctype="multipart/form-data" action="https://microapp-pentest.dws-ipa.com/api/v1/get_formdata/joinerform" method="POST" autocomplete="on" onsubmit="return formdata_validation(this)">
+                                                <div class="ibm-columns" >
+                                                    <div class="ibm-col-12-6">
+                                                        <P class="ibm-form-elem-grp " >
+                                
+                                                            <label  for="EmployeeID" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Enter the  new joiner employee ID" > New Joiner Employee ID </span> <span class="ibm-required">*</span></label>                                                
+                                                            <input  type="text"   autocomplete="given-name"   data-widget="tooltip" title="Enter the  new joiner employee ID" class="ibm-styled-input" style="width: 405px;" placeholder="Ex:EMP001" id="EmployeeID" name="new_joiner_employee_id" maxlength="15"  onchange="getformdata()" required></input>
+                                                            
+                                                        </P>
+                                                        
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_requestor_ismanager" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Select yes if you are the manager of the new joine" >Are you the Manager of the New Joiner?</span><span class="ibm-required">*</span></label>                                                
+                                                            <select type="text" class="ibm-styled-input"  id="new_joiner_requestor_ismanager" name="new_joiner_requestor_ismanager" style="width: 386px;" onchange="MangerDisplay()" required>
+                                                                <option value="" selected>Select one</option>
+                                                                <option>YES</option>
+                                                                <option>NO</option>
+                                                            </select>
+                                                            
+                                                        </P>
+                                                       
+                                                    
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_first_name" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Enter the new joiner first name">First Name</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_first_name" name="new_joiner_first_name" maxlength="15" style="width: 405px;" placeholder="EX:JOHN" required readonly></input>
+                                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_initials" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Enter the new joiner initials">Initials</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input"   id="new_joiner_initials" name="new_joiner_initials" maxlength="15" style="width: 405px;" placeholder="EX:K" readonly></input>
+                                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_last_name" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Enter the new joiner lastname">Last Name</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input"  id="new_joiner_last_name" name="new_joiner_last_name" maxlength="15" style="width: 405px;" placeholder="EX:JOHN" required readonly></input>
+                                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_contact_num" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Enter the new joiner contact info"> New Joiner Contact Info</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input"  id="new_joiner_contact_num" name="new_joiner_contact_num" maxlength="15" style="width: 405px;" placeholder="EX:966386122" required readonly></input>
+                                                            
+                                                        </P>
+                                                    
+                                                    
+                                                    
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joining_date" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="new joiner start date">Start Date</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input"  class="ibm-styled-input" id="new_joining_date" name="new_joining_date" style="width: 405px;" placeholder="23/07/2020" required readonly></input>
+                                                            
+                                                        </P>
+                                                        
+                                                        <P class="ibm-form-elem-grp">
+                                                            <label for="new_joiner_business_unit" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="new joiner business unit">Business Unit</span><span class="ibm-required">*</span></label>
+                                                            <input type="text" class="ibm-styled-input"  id="new_joiner_business_unit" name="new_joiner_business_unit" maxlength="15" style="width: 405px;" placeholder="EX:Marketing" required readonly></input>                                            
+                                                        </P>
+                                                
+                                                        <P class="ibm-form-elem-grp">
+                                                            <label for="new_joiner_department_code" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="new joiner department code">Department Code</span><span class="ibm-required">*</span></label>
+                                                            <input type="text" class="ibm-styled-input"   id="new_joiner_department_code" name="new_joiner_department_code" maxlength="15" style="width: 405px;" placeholder="Ex:DEPT001" required readonly></input>                                      
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_additional_notification" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Notification mail to be sent">Additional Notification</span></label>                                                
+                                                            <input type="email" class="ibm-styled-input" id="new_joiner_additional_notification" name="new_joiner_additional_notification" maxlength="15" style="width: 405px;" placeholder="EX:pk@ibm.com" ></input>
+                                                        
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_default_distribution_list" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="list of distribution group that need to be part of">Distribution list</span></label>
+                                                            <input type="text" class="ibm-styled-input"   id="new_joiner_default_distribution_list" name="new_joiner_default_distribution_list" maxlength="15" style="width: 405px;" placeholder="Ex:DEPT001" required readonly></input>                                            
+                                                                                                         
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                                            <label for="new_joiner_additional_folder_access" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="folder access required or not"> Additional Folder Access</span><span class="ibm-required">*</span></label>                                               
+                                                                <select type="text" class="ibm-styled-input"  id="new_joiner_additional_folder_access" name="new_joiner_additional_folder_access" style="width: 386px;"  onchange="FloderDisplay()" required>
+                                                                    <option>YES</option>
+                                                                    <option selected>NO</option>
+                                                                </select>                                              
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_additional_details" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Additional Details">Additional Details</span> </label>                                                
+                                                            <textarea class="ibm-styled-input" id="new_joiner_additional_details" name="new_joiner_additional_details" style="width: 408px;height: 178px;" maxlength="15"  placeholder="Additional details" maxlength="256"></textarea>
+                                                        
+                                                        </P>
+                                                
+                                                    </div>
+                                                    <div class="ibm-col-12-6">
+                                                        <P class="ibm-form-elem-grp" id="Manager_Details1" style="visibility: hidden;">
+                                
+                                                            <label for="new_joiner_manager_name" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="manger name of new joine">Manager Name</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_manager_name" name="new_joiner_manager_name" style="width: 405px;" maxlength="15" data-widget="tooltip" title="manger name of new joine" placeholder="Ex:JOHN"readOnly ></input>
+                                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp" id="Manager_Details2" style="visibility: hidden;">
+                                
+                                                            <label for="new_joiner_manager_email" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="email address of the manager">Manager Email</span><span id="span_id" class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_manager_email" name="new_joiner_manager_email" style="width: 405px;" maxlength="15" placeholder="Ex:pk@ibm.com" required readonly></input>
+                                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_office" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="new office location of new joine">Office</span><span class="ibm-required">*</span></label>
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_office" name="new_joiner_office" style="width: 405px;" maxlength="15" placeholder="EX:EGL" required readonly></input>                                              
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_city" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Enter the City">City</span><span class="ibm-required">*</span></label>
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_city" name="new_joiner_city" style="width: 405px;" maxlength="15" placeholder="EX:Bangalore" required readonly></input>                                        
+                                                        </P>
+
+
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_employee_type" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Enter the Employee type">Employee Type</span><span class="ibm-required">*</span></label>
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_employee_type" name="new_joiner_employee_type" style="width: 405px;" maxlength="15" placeholder="Ex:Regular" required readonly></input>                                        
+                                                        </P>
+                            
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_job_title" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Enter the Persona"> Persona/Job role</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_job_title" name="new_joiner_job_title" style="width: 405px;" maxlength="15"  placeholder="Ex:Application Developer" required readonly></input>
+                                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_default_software" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Default softwares that will be installed on your system">Default Softwares</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_default_software" name="new_joiner_default_software" style="width: 405px;" maxlength="15"  placeholder="Ex:Office" required readonly></input>
+                                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_desk_phone_required" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Desk phone required or not">Desk Phone Required</span><span class="ibm-required">*</span></label>                           
+                                                                <select type="text" class="ibm-styled-input" id="new_joiner_desk_phone_required"  name="new_joiner_desk_phone_required"  style="width: 386px;" required>
+                                                                    <option>YES</option>
+                                                                    <option selected>NO</option>
+                                                                </select>                                             
+                                                        </P>
+                                                        
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_O365_license" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Required O365 licence">O365 Licence</span></label>                                                                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_O365_license" name="new_joiner_O365_license" style="width: 405px;" maxlength="15"  placeholder="Ex:Office" required readonly></input>  
+                                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_additional_software" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="List of software that need to be installed on the system">Additional Software</span></label>
+                                                                                                            
+                                                                <select role="combobox" class="ibm-styled-input" id="new_joiner_additional_software" name="new_joiner_additional_software"  style="width: 386px;height: 500px;" multiple>
+                                                                    <option value="" selected>Select one</option>
+                                                                    <option>ILC</option>
+                                                                    <option>Office</option>
+                                                                    <option>Visual studio</option>
+                                                                    <option>Cisco Any Connect</option>
+                                                                </select>
+                                                                                                        
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                                            <label for="new_joiner_vpn_required" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="VPN needed or not">VPN </span><span class="ibm-required">*</span></label>
+                                                                                                        
+                                                                <select type="text" class="ibm-styled-input" id="new_joiner_vpn_required" name="new_joiner_vpn_required" style="width: 386px;"  required>
+                                                                    <option>YES</option>
+                                                                    <option selected>NO</option>
+                                                                </select>
+                                                                                                        
+                                                        </P>
+                                                    
+                                                        <P class="ibm-form-elem-grp" >
+                                    
+                                                            <label for="new_joiner_default_data_folder_path" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="folder path that need access">Default Data Folder Path</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_default_data_folder_path" name="new_joiner_default_data_folder_path" maxlength="30" style="width: 405px;" placeholder="EX://system/test" required readonly></input>
+                                                                
+                                                        </P>
+                                                        
+                                                        <P class="ibm-form-elem-grp" >
+                                
+                                                            <label for="new_joiner_default_data_folder_permissions" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Type of access needed for the folder">Access Type For Default Folder</span><span class="ibm-required">*</span></label>
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_default_data_folder_permissions" name="new_joiner_default_data_folder_permissions" style="width: 405px;" maxlength="15" placeholder="EX:Full Permission" required readonly></input>                                                                           
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                                                <label for="new_joiner_default_hardware_type" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Type of hardware needed">Hardware Type</span><span class="ibm-required">*</span></label>
+                                                                <input type="text" class="ibm-styled-input" id="new_joiner_default_hardware_type" name="new_joiner_default_hardware_type" style="width: 405px;" maxlength="15" placeholder="Ex:Windows" required readonly></input>                                            
+                                                        </P>
+                                                        <P class="ibm-form-elem-grp">
+                                
+                                                            <label for="new_joiner_default_hardware_os" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title=" Type of hardware os that need to be installed on the system">Hardware OS</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_default_hardware_os" name="new_joiner_default_hardware_os" style="width: 405px;" maxlength="15" placeholder="Ex:Windows 10" required readonly></input>
+                                                            
+                                                        </P>
+                                                        
+                                                        <P class="ibm-form-elem-grp" id="Data_folder_path" style="visibility:hidden;" >
+                                    
+                                                            <label for="new_joiner_additional_folder_path" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="folder path that need access">Data Folder Path</span><span class="ibm-required">*</span></label>                                                
+                                                            <input type="text" class="ibm-styled-input" id="new_joiner_additional_folder_path" name="new_joiner_additional_folder_path" style="width: 405px;" placeholder="EX://system/test"></input>
+                                                                
+                                                        </P>
+                                                        
+                                                        <P class="ibm-form-elem-grp" style="visibility:hidden;" id="Access_Type">
+                                
+                                                            <label for="new_joiner_additional_folder_permissions" class="ibm-textcolor-gray-50" style="filter:contrast(4.5);"><span data-widget="tooltip" title="Type of access needed for the folder">Access Type</span><span class="ibm-required">*</span></label>
+                                                                                                            
+                                                                <select type="text" class="ibm-styled-input" id="new_joiner_additional_folder_permissions" name="new_joiner_additional_folder_permissions" style="width: 386px;">
+                                                                    <option value="" selected>Select one</option>
+                                                                    <option>Read</option>
+                                                                    <option>Write</option>
+                                                                </select>
+                                                                                                        
+                                                        </P>
+                                                  
+                                                    </div>
+                                                </div>
+                                                <p class="ibm-center">
+                                                    <input data-widget="tooltip" title="Click on submit button after you filled the required details to raise a service request" type="submit" class="ibm-btn-pri" value="Submit" >
+                                                </p>
+                                            
+                                        </form>
+                                    </div>
+                                    <!-- CONTENT & COMPONENTS END -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+      
+        <script>
+// akam-sw.js install script version 1.3.3
+"serviceWorker"in navigator&&"find"in[]&&function(){var e=new Promise(function(e){"complete"===document.readyState||!1?e():(window.addEventListener("load",function(){e()}),setTimeout(function(){"complete"!==document.readyState&&e()},1e4))}),n=window.akamServiceWorkerInvoked,r="1.3.3";if(n)aka3pmLog("akam-setup already invoked");else{window.akamServiceWorkerInvoked=!0,window.aka3pmLog=function(){window.akamServiceWorkerDebug&&console.log.apply(console,arguments)};function o(e){(window.BOOMR_mq=window.BOOMR_mq||[]).push(["addVar",{"sm.sw.s":e,"sm.sw.v":r}])}var i="/akam-sw.js",a=new Map;navigator.serviceWorker.addEventListener("message",function(e){var n,r,o=e.data;if(o.isAka3pm)if(o.command){var i=(n=o.command,(r=a.get(n))&&r.length>0?r.shift():null);i&&i(e.data.response)}else if(o.commandToClient)switch(o.commandToClient){case"enableDebug":window.akamServiceWorkerDebug||(window.akamServiceWorkerDebug=!0,aka3pmLog("Setup script debug enabled via service worker message"),p());break;case"boomerangMQ":o.payload&&(window.BOOMR_mq=window.BOOMR_mq||[]).push(o.payload)}aka3pmLog("akam-sw message: "+JSON.stringify(e.data))});var t=function(e){return new Promise(function(n){var r,o;r=e.command,o=n,a.has(r)||a.set(r,[]),a.get(r).push(o),navigator.serviceWorker.controller&&(e.isAka3pm=!0,navigator.serviceWorker.controller.postMessage(e))})},c=function(e){return t({command:"navTiming",navTiming:e})},s=null,m={},d=function(){var e=i;return s&&(e+="?othersw="+encodeURIComponent(s)),function(e,n){return new Promise(function(r,i){aka3pmLog("Registering service worker with URL: "+e),navigator.serviceWorker.register(e,n).then(function(e){aka3pmLog("ServiceWorker registration successful with scope: ",e.scope),r(e),o(1)}).catch(function(e){aka3pmLog("ServiceWorker registration failed: ",e),o(0),i(e)})})}(e,m)},g=ServiceWorkerContainer.prototype.register;if(ServiceWorkerContainer.prototype.register=function(n,r){return n.includes(i)?g.call(this,n,r):(aka3pmLog("Overriding registration of service worker for: "+n),s=new URL(n,window.location.href),m=r,navigator.serviceWorker.controller?new Promise(function(n,r){var o=navigator.serviceWorker.controller.scriptURL;if(o.includes(i)){var a=encodeURIComponent(s);o.includes(a)?(aka3pmLog("Cancelling registration as we already integrate other SW: "+s),navigator.serviceWorker.getRegistration().then(function(e){n(e)})):e.then(function(){aka3pmLog("Unregistering existing 3pm service worker"),navigator.serviceWorker.getRegistration().then(function(e){e.unregister().then(function(){return d()}).then(function(e){n(e)}).catch(function(e){r(e)})})})}else aka3pmLog("Cancelling registration as we already have akam-sw.js installed"),navigator.serviceWorker.getRegistration().then(function(e){n(e)})}):g.call(this,n,r))},navigator.serviceWorker.controller){var u=navigator.serviceWorker.controller.scriptURL;u.includes("/akam-sw.js")||u.includes("/akam-sw-preprod.js")||u.includes("/threepm-sw.js")||(aka3pmLog("Detected existing service worker. Removing and re-adding inside akam-sw.js"),s=new URL(u,window.location.href),e.then(function(){navigator.serviceWorker.getRegistration().then(function(e){m={scope:e.scope},e.unregister(),d()})}))}else e.then(function(){window.akamServiceWorkerPreprod&&(i="/akam-sw-preprod.js"),d()});if(window.performance){var w=window.performance.timing,l=w.responseEnd-w.responseStart;c(l)}e.then(function(){t({command:"pageLoad"})});var k=!1;function p(){window.akamServiceWorkerDebug&&!k&&(k=!0,aka3pmLog("Initializing debug functions at window scope"),window.aka3pmInjectSwPolicy=function(e){return t({command:"updatePolicy",policy:e})},window.aka3pmDisableInjectedPolicy=function(){return t({command:"disableInjectedPolicy"})},window.aka3pmDeleteInjectedPolicy=function(){return t({command:"deleteInjectedPolicy"})},window.aka3pmGetStateAsync=function(){return t({command:"getState"})},window.aka3pmDumpState=function(){aka3pmGetStateAsync().then(function(e){aka3pmLog(JSON.stringify(e,null,"\t"))})},window.aka3pmInjectTiming=function(e){return c(e)},window.aka3pmUpdatePolicyFromNetwork=function(){return t({command:"pullPolicyFromNetwork"})})}p()}}();</script>
+<script src="https://1.www.s81c.com/common/v18/js/www.js"></script>        
+        <script src="https://1.www.s81c.com/common/v18/js/forms.js"></script>
+        <script type="text/javascript">
+           var manager_name="";
+           var manager_email="";
+
+          
+            function FloderDisplay()
+            {                
+                var Floder_dropdown=document.getElementById("new_joiner_additional_folder_access");
+                var Floder_Text=Floder_dropdown.options[Floder_dropdown.selectedIndex].text;
+               
+                if(Floder_Text=="YES")
+                {
+
+                    document.getElementById("Data_folder_path").style.visibility="visible";
+                    document.getElementById("new_joiner_additional_folder_path").setAttribute("required","true");
+                    document.getElementById("new_joiner_additional_folder_permissions").setAttribute("required","true");
+                    document.getElementById("Access_Type").style.visibility="visible";  
+                }
+                else
+                {
+                    document.getElementById("Data_folder_path").style.visibility="hidden";
+                    document.getElementById("Access_Type").style.visibility="hidden";
+                    document.getElementById("new_joiner_additional_folder_path").removeAttribute("required");
+                    document.getElementById("new_joiner_additional_folder_permissions").removeAttribute("required");
+                }
+            }
+           
+            async function MangerDisplay()
+            {
+                    
+                var Manager_dropdown = document.getElementById("new_joiner_requestor_ismanager");
+                var Manager_Text = Manager_dropdown.options[Manager_dropdown.selectedIndex].text;                
+                if(Manager_Text=="YES")
+                {
+                    document.getElementById("new_joiner_manager_name").value=manager_name;
+                    document.getElementById("new_joiner_manager_email").value=manager_email;
+                    document.getElementById("Manager_Details1").style.visibility="visible";
+                    document.getElementById("Manager_Details2").style.visibility="visible";
+                    document.getElementById("new_joiner_manager_name").setAttribute("readOnly","true");
+                    document.getElementById("new_joiner_manager_email").setAttribute("readOnly","true");
+                    document.getElementById("new_joiner_manager_name").setAttribute("required","true");
+                    
+                }
+                else
+                {
+                    document.getElementById("new_joiner_manager_email").value="";
+                    document.getElementById("new_joiner_manager_name").value="";
+                    document.getElementById("Manager_Details1").style.visibility="visible";
+                    document.getElementById("Manager_Details2").style.visibility="visible";
+                    document.getElementById("new_joiner_manager_email").removeAttribute("readOnly");
+                    document.getElementById("new_joiner_manager_name").removeAttribute("readOnly");
+                    
+                }
+                                   
+            }
+            async function getformdata()
+            {
+                
+                var empid=document.getElementById("EmployeeID").value;
+                var url="https://c44faa2a.us-south.apigw.appdomain.cloud/hndGe2/hr_mockdb/get_emp_details?emp_id="+empid;
+                var res=await fetch(url);
+                if(res.status==200)
+                {
+                    var res_data = await res.json();
+                    var res_json = res_data["emp_details"];
+                     manager_name = res_json["manager_name"];
+                     manager_email = res_json["manager_email"];
+                    var first_name = res_json["new_joiner_firstname"];
+                    var initials = res_json["new_joiner_initial"];
+                    var lastname = res_json["new_joiner_lastname"];
+                    var business_unit = res_json["business_unit"];
+                    var emp_type = res_json["emp_type"];
+                    var contact_number=res_json["contact_num"];
+                    var persona=res_json["persona"];
+                    var city = res_json["city"];
+                    var office = res_json["office"];
+                    var dept_code = res_json["dept_code"];
+                    var joining_date=res_json["joining_date"];
+                    var default_data_folder=res_json["default_data_folder"];
+                    var default_data_folder_access_type=res_json["default_data_folder_access_type"];
+                    var hardware_type=res_json["hardware_type"];
+                    var hardware_os=res_json["hardware_os"];
+                    var required_software_group=res_json["required_software_group"];
+                    var O365_license=res_json["O365_license"];
+                    var dl_membership=res_json["dl_membership"];
+
+
+
+
+                    var nameformat = new RegExp("[a-zA-z.0-9 ]+");
+                    var initalsformat = new RegExp("[a-zA-z.0-9 ]*");
+                    var lastnameformat = new RegExp("[a-zA-z.0-9 ]*");
+                    var officeformat = new RegExp("[a-zA-z0-9]+");
+                    var cityformat = new RegExp("[a-zA-z ]+");
+                    var deptcodeformat = new RegExp("^(DEPT)[0-9]{3}");
+                    var emailformat = new RegExp("^([a-zA-Z0-9\_\.]+)@[a-zA-Z\_\.]+\.([a-zA-Z]{1,3})$");
+                    var businessunitformat=new RegExp("[a-zA-z]+");
+                    var emp_typeformat = new RegExp("^(?:Regular|Contractor|Vendor|Inter)$");
+                    var contact_numberformat = new RegExp("^[\+]?([0-9]{1,3})?[-. ]?[0-9]{10}$");
+                    var cityformat = new RegExp("[a-zA-Z ]+");
+                    var officeformat = new RegExp("[a-zA-Z ]+");
+                    var dept_codeformat = new RegExp("[a-zA-Z0-9 ]+");
+                    var default_data_folder_format = /^(\\)(\\[A-Za-z0-9-_.]+){1,}(\\?)$/;
+                    var default_data_folder_access_format = new RegExp("^(?:Read|Write|fullControl)$");
+                    var hardware_typeformat = new RegExp("^(?:Laptop|Desktop)$");
+                    var hardware_osformat = new RegExp("^(?:Windows 10|Linux)$");
+                    var required_software_groupformat = new RegExp("^(?:Basic|Premium|Standard)$");
+                    var O365_licenseformat = new RegExp("^(?:E3|E5|E7|E11)$");
+                    var dl_membershipformat = new RegExp("[a-zA-Z \_0-9]+");
+                    var personaformat = new RegExp("[a-zA-Z ]+") 
+                    var joingdateformat= new RegExp("^[0-9]{1,2}\/[0-9]{2}\/20[0-9]{2}$");
+
+
+
+                    if(nameformat.test(manager_name)==true)
+                    {
+                        document.getElementById("new_joiner_manager_name").value=manager_name;
+                        document.getElementById("new_joiner_manager_name").setAttribute("readOnly","true");
+                    }
+        
+                    if(nameformat.test(first_name)==true)
+                    {
+                        document.getElementById("new_joiner_first_name").value=first_name;
+                       document.getElementById("new_joiner_first_name").setAttribute("readOnly","true");
+                    }
+                    if(initalsformat.test(initials)==true)
+                    {
+                        document.getElementById("new_joiner_initials").value=initials;
+                        document.getElementById("new_joiner_initials").setAttribute("readOnly","true");
+                    }
+                    if(lastnameformat.test(lastname)==true)
+                    {
+                        document.getElementById("new_joiner_last_name").value=lastname;
+                        document.getElementById("new_joiner_last_name").setAttribute("readOnly","true");
+                    }
+                    if(emailformat.test(manager_email)==true)
+                    {
+                        document.getElementById("new_joiner_manager_email").value=manager_email;
+                       document.getElementById("new_joiner_manager_email").setAttribute("readOnly","true");
+                    }
+                    if(officeformat.test(office)==true)
+                    {
+                        document.getElementById("new_joiner_office").value=office;
+                       document.getElementById("new_joiner_office").setAttribute("readOnly","true");
+                    }
+                    if(cityformat.test(city)==true)
+                    {
+                        document.getElementById("new_joiner_city").value=city;
+                        document.getElementById("new_joiner_city").setAttribute("readOnly","true");
+                    }
+                    if(businessunitformat.test(business_unit)==true)
+                    {
+                        document.getElementById("new_joiner_business_unit").value=business_unit;
+                       document.getElementById("new_joiner_business_unit").setAttribute("readOnly","true");
+                    }
+                    if(deptcodeformat.test(dept_code)==true)
+                    {
+                        document.getElementById("new_joiner_department_code").value=dept_code;
+                        document.getElementById("new_joiner_department_code").setAttribute("readOnly","true");
+                    }
+                    if(emp_typeformat.test(emp_type)==true)
+                    {
+                        document.getElementById("new_joiner_employee_type").value=emp_type;
+                        document.getElementById("new_joiner_employee_type").setAttribute("readOnly","true");
+                    }
+                    if(joingdateformat.test(joining_date))
+                    {
+                        document.getElementById("new_joining_date").value=joining_date;
+                        document.getElementById("new_joining_date").setAttribute("readOnly","true");
+                    }
+
+
+                    document.getElementById("new_joiner_default_data_folder_path").value=default_data_folder;
+                    document.getElementById("new_joiner_default_data_folder_path").setAttribute("readOnly","true");
+
+                   
+                   
+                    if(default_data_folder_access_format.test(default_data_folder_access_type)==true)
+                    {
+                        document.getElementById("new_joiner_default_data_folder_permissions").value=default_data_folder_access_type;
+                        document.getElementById("new_joiner_default_data_folder_permissions").setAttribute("readOnly","true");
+                    }
+                    if(hardware_typeformat.test(hardware_type)==true)
+                    {    
+                        document.getElementById("new_joiner_default_hardware_type").value=hardware_type;
+                        document.getElementById("new_joiner_default_hardware_type").setAttribute("readOnly","true");
+                    }
+                    if(hardware_osformat.test(hardware_os)==true)
+                    {
+                        document.getElementById("new_joiner_default_hardware_os").value=hardware_os;
+                        document.getElementById("new_joiner_default_hardware_os").setAttribute("readOnly","true");
+                    }
+                    if(required_software_groupformat.test(required_software_group)==true)
+                    {
+                        document.getElementById("new_joiner_default_software").value=required_software_group;
+                        document.getElementById("new_joiner_default_software").setAttribute("readOnly","true");
+                    }
+                    if(O365_licenseformat.test(O365_license)==true)
+                    {    
+                        document.getElementById("new_joiner_O365_license").value=O365_license;
+                        document.getElementById("new_joiner_O365_license").setAttribute("readOnly","true");
+                    }
+                    if(dl_membershipformat.test(dl_membership)==true)
+                    {
+                        document.getElementById("new_joiner_default_distribution_list").value=dl_membership;
+                        document.getElementById("new_joiner_default_distribution_list").setAttribute("readOnly","true");
+                    }
+                    if(personaformat.test(persona)==true)
+                    {
+                        document.getElementById("new_joiner_job_title").value=persona;
+                        document.getElementById("new_joiner_job_title").setAttribute("readOnly","true");
+                    }
+                    if(contact_numberformat.test(contact_number)==true)
+                    {    
+                        document.getElementById("new_joiner_contact_num").value=contact_number;
+                        document.getElementById("new_joiner_contact_num").setAttribute("readOnly","true");
+                    } 
+                     
+                 }
+            }
+            function formdata_validation()
+            {
+                
+                var joinerID=document.getElementById("EmployeeID").value;
+                var joinerpattern = new RegExp("[0-9]{5}[a-zA-Z]{1}");
+                var mobilenumber = document.getElementById("new_joiner_contact_num").value;
+                var mobpattern = new RegExp("^[\+]?([0-9]{1,3})?[-. ]?[0-9]{10}$");
+                var ssnnoformat = new RegExp("[0-9]{3}[-][0-9]{2}[-][0-9]{4}")
+                var additionaldetails =  document.getElementById("new_joiner_additional_details").value;
+               // if(joinerpattern.test(joinerID)== false)
+               // {
+              //      alert ("Employee Id not in the correct form");
+                    //document.getElementById("EmployeeID").value="";
+                    //document.getElementById("EmployeeID").focus();
+                   // return false;
+               // }
+                if(mobpattern.test(mobilenumber)==false)
+                {
+                    alert ("Mobile number not in the correct form");
+                    document.getElementById("new_joiner_contact_num").value="";
+                    document.getElementById("new_joiner_contact_num").focus();
+                    return false;
+                }
+                
+                if(ssnnoformat.test(additionaldetails)==true)
+                {
+                    alert("looks like ssn number present in the text.Please dont include any ssn numbers");
+                    document.getElementById("new_joiner_additional_details").focus();
+                    return false;
+                }
+            }
+        </script>
+    <script type="text/javascript" >var _cf = _cf || []; _cf.push(['_setFsp', true]);  _cf.push(['_setBm', true]);  _cf.push(['_setAu', '/resources/bb3f9a0c6crn206b98babbb559193b23']); </script><script type="text/javascript"  src="/resources/bb3f9a0c6crn206b98babbb559193b23"></script></body>
+</html>

@@ -1,6 +1,6 @@
 FROM node:14.14.0-alpine3.12
 
-ADD . /home/node_microservice/
+COPY . /home/node_microservice/
 RUN cd /home/node_microservice && npm install --production
 
 WORKDIR /home/node_microservice/
