@@ -154,12 +154,9 @@ function getUserDept(snowReq) {
             path: `api/now/table/sys_user?email=${user_email}&sysparm_fields=department`,
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            auth:{
-              user: SNOW_USERNAME,
-              pass: SNOW_PASSWORD
-            }
+              'Content-Type': 'application/json',
+              'Authorization': 'Basic ' + new Buffer.from(SNOW_USERNAME + ':' + SNOW_PASSWORD).toString('base64')
+            }             
         };
     
        snowReq = https.request(options, (res) => { 
