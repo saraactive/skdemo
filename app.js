@@ -141,12 +141,12 @@ app.use(helmet.hsts({
 app.use(helmet.noSniff());
 app.use(nocache());
 
-getUserDept().then((data) => {
-const response={
-body:JSON.stringify(data)
-};
-return response;
-});
+//getUserDept().then((data) => {
+//const response={
+//body:JSON.stringify(data)
+//};
+//return response;
+//});
 
 function getUserDept(snowReq) {
   const options = {

@@ -1,4 +1,4 @@
-FROM node:14.14.0-alpine3.12
+FROM node:14.6-slim
 
 COPY . /home/node_microservice/
 RUN cd /home/node_microservice && npm install --production
