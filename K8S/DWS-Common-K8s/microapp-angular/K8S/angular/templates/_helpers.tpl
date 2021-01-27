@@ -18,10 +18,12 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{/*
 Create the specific name for the ocnfiguration
 */}}
-{{- define "microapp.configmap" -}}
-{{- printf "taskform-configmap-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 {{- define "microapp.envconfigmap" -}}
 {{- printf "taskform-env-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
+{{- define "microapp.configmap" -}}
+{{- printf "nodeproxy-configmap-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "microapp.appid-bind" -}}
+{{- printf "binding-%s" .Values.bindservice.appid| trunc 63 | trimSuffix "-" -}}
+{{- end -}}
