@@ -21,6 +21,11 @@ resources:
   requests:
     memory: "512Mi"
     cpu: "200m"
+tls:
+   secret: dws-ipa-tls
+domain: microapp-angular-dev
+bindservice:
+      appid: dws-appid-demo
 livenessProbe:
   initialDelaySeconds: 30
   periodSeconds: 10

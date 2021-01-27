@@ -37,8 +37,16 @@ spec:
         - containerPort: {{ .Values.service.internalPort }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "microapp.envconfigmap" . }}
         env:
           - name: NODE_ENV
             value: "{{ .Values.nodenv }}"
+          - name: APPID_SERVICE_BINDING
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "microapp.appid-bind" . }}
+                key: binding
       imagePullSecrets:
       - name: {{ .Values.image.imagePullSecret }}
