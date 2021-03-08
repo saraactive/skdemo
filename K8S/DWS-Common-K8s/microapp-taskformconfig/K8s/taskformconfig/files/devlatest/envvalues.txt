@@ -1,5 +1,4 @@
-
-MISC: "{\"profilesUrl\":\"https://us-south.appid.cloud.ibm.com\",\"isLocal\":\"false\",\"baseDomain\":\"microapp-dev.dws-ipa.com\",\"callbackurl\":\"/callback\",\"PROXY_TARGET\":\"http://microapp-taskform-dev.taskform-dev.svc.cluster.local:3000\",\"cookieExpiry\":86400000}"
+PORT:"3000"
 
 SNOW_USER_BASE_URL: "https://ibmwssdemo2.service-now.com/api/now/table/sys_user"
 
@@ -11,4 +10,4 @@ SNOW_PASSWORD: "Wss@snow20"
 
 APPCONNECT_CREATE_REQUEST_URL: "https://ac12954e.us-south.apigw.appdomain.cloud/PuOezo/Microapp_CreateServicenow_Ticket"
 
-STATIC_FORM_SERVER_URL: "http://microapp-angular-dev.taskform-dev.svc.cluster.local:4200"
+REDIRECT_URL: "http://localhost:3000/appid/callback"
