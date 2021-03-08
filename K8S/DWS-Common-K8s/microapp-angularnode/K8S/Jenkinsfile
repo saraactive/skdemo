@@ -1,0 +1,233 @@
+pipeline 
+{
+    environment { 
+        DWS_GIT_PROJECT      = 'git@github.ibm.com:DWS-MicroApp/Microapp-Node-Proxy.git' 
+        DWS_GIT_REL_DIR      = 'dws-microapp-nodeproxy/code'
+        DWS_GIT_DEPLOYMENT  = 'git@github.ibm.com:DWS-MicroApp/DWS-Devops.git'
+        DWS_GIT_DEPLOYMENT_REL_DIR = 'dws-microapp-nodeproxy/devops' 
+        DWS_GIT_USER         = 'jenkins_slave'
+        DWS_CHART_NAME       = 'nodeproxy' //Name of the chart to deploy 
+        DWS_K8_ZIP           = 'k8s.zip' //Name of teh ZIP file used to share helm charts among various Jenkins slaves
+        DWS_STASH_NAME       = 'nodeproxychart'//Stash name
+        DWS_DOCKER_REG_URL   = 'https://us.icr.io'
+        DWS_DOCKER_REG       = 'us.icr.io'
+        DWS_DOCKER_NAMESPACE = 'dwsmicroapp' // docker namespace DWS-env
+        DWS_DOCKER_REPO      = 'taskform-nodeproxy'
+        DWS_DOCKER_REG_USER  = 'docker-registry'
+        DWS_UCD_USER         = 'ucd-cred'
+        DWS_CHART_DIR        = 'K8S/DWS-Common-K8s/microapp-nodeproxy/K8S/' //directory where to find helm charts
+        DWS_UCD_DEPLOY_APP   = 'DWS-MICROAPP-NODEPROXY'
+        DWS_UCD_COMPONENT    = 'microappnodeproxy'
+        EMAIL_NOTIFICATION    = 'rparokka@in.ibm.com,amanbutt@in.ibm.com'
+
+    }
+
+     agent{
+        node{
+               label (env.DWS_BUILD_DOCKER_IMAGE)
+			   //label 'kube_pod_slave' 
+			   //label 'jenkins_dstagent'
+		} 
+	}
+    stages{
+        //Produces a set of variables to be used by build stages.
+        stage("Init"){
+            steps{
+                //Clean up the workspace!!!
+                dir("${WORKSPACE}"){
+                    deleteDir()
+                }
+                //Read the input paramater to run the build
+                script{
+                    DWS_GIT_PROJECT_LOCAL          =   env.DWS_GIT_PROJECT 
+                    DWS_GIT_BRANCH_LOCAL           =   env.DWS_GIT_BRANCH //"devops"
+                    DWS_GIT_USER_LOCAL             =   env.DWS_GIT_USER //"jenkins_slave"
+                    DWS_GIT_REL_DIR_LOCAL          =   env.DWS_GIT_REL_DIR //'DWS/code'
+                    DWS_DEPLOYMENT_GIT_BRANCH_LOCAL  =   env.DWS_DEPLOYMENT_GIT_BRANCH
+                    DWS_K8_ZIP_LOCAL                     =   env.DWS_K8_ZIP //"DWSzip"
+                    DWS_STASH_NAME_LOCAL                 =   env.DWS_STASH_NAME 
+                    DWS_DOCKER_REG_URL_LOCAL             =   env.DWS_DOCKER_REG_URL //"https://us.icr.io"
+                    DWS_DOCKER_REG_LOCAL                 =   env.DWS_DOCKER_REG
+                    DWS_DOCKER_NAMESPACE_LOCAL     =   env.DWS_DOCKER_NAMESPACE
+                    DWS_DOCKER_REPO_LOCAL          =   env.DWS_DOCKER_REPO
+                    DWS_DOCKER_REG_USER_LOCAL            =   env.DWS_DOCKER_REG_USER //"docker-registry"
+                    DWS_UCD_USER_LOCAL             =   env.DWS_UCD_USER //"ucd-cred"
+                    DWS_BUILD_DATE_LOCAL           =   env.DWS_BUILD_DATE
+                    DWS_IMAGE_TAG_LOCAL            =   env.DWS_IMAGE_TAG
+                    DWS_DEPLOY_ENV_LOCAL           =   env.DWS_DEPLOY_ENV //'CI'
+                    DWS_UCD_DEPLOY_APP_LOCAL       =   env.DWS_UCD_DEPLOY_APP 
+                    DWS_UCD_COMPONENT_LOCAL        =   env.DWS_UCD_COMPONENT 
+                    DWS_BUILD_ACTIONS_LOCAL        =   env.DWS_BUILD_ACTIONS
+                    DWS_DEPLOY_ENV_LOCAL           =   env.DWS_DEPLOY_ENV
+
+                    IMAGE_TAG_BDATE = DWS_IMAGE_TAG_LOCAL    
+                }
+                println  'DWS_GIT_BRANCH_LOCAL           =  ' + DWS_GIT_BRANCH 
+                println  'DWS_GIT_USER_LOCAL             =  ' + DWS_GIT_USER
+                println  'DWS_GIT_REL_DIR_LOCAL          =  ' + DWS_GIT_REL_DIR 
+                println  'DWS_K8_ZIP                     =  ' + DWS_K8_ZIP 
+                println  'DWS_STASH_NAME                 =  ' + DWS_STASH_NAME 
+                println  'DWS_DOCKER_REG_URL             =  ' + DWS_DOCKER_REG_URL 
+                println  'DWS_DOCKER_REG_USER            =  ' + DWS_DOCKER_REG_USER 
+                println  'DWS_UCD_USER_LOCAL             =  ' + DWS_UCD_USER
+                println  'DWS_IMAGE_TAG_LOCAL            =  ' + DWS_IMAGE_TAG
+                println  'DWS_DEPLOY_ENV_LOCAL           =  ' + DWS_DEPLOY_ENV 
+                println  'DWS_UCD_DEPLOY_APP_LOCAL       =  ' + DWS_UCD_DEPLOY_APP 
+                println  'DWS_UCD_COMPONENT_LOCAL        =  ' + DWS_UCD_COMPONENT 
+            }
+        }
+        stage("Deployment Code Checkout"){
+            steps {
+                dir(DWS_GIT_DEPLOYMENT_REL_DIR){
+                    script{
+                        scmVars = git branch: DWS_DEPLOYMENT_GIT_BRANCH_LOCAL, credentialsId: DWS_GIT_USER_LOCAL, url: DWS_GIT_DEPLOYMENT
+
+                        //The commit variable is not updated with the latest checkout but only from the original CLONE command done to extract the pipeline
+                        //We have added a GIT command to get the commit from the branch
+                        sh "git rev-parse HEAD > .git/commit-id"                        
+                        GIT_COMMIT = readFile('.git/commit-id')
+                        echo 'COMMIT HASH: ' + GIT_COMMIT
+                        dir(DWS_CHART_DIR){
+                            script{
+                                sh 'zip -r '+DWS_K8_ZIP+' '+DWS_CHART_NAME+' -x \"*.md\"'
+                            }
+                        }
+                    }
+                }   
+            }
+        }
+        stage('Application Code Checkout'){
+            steps {
+                dir(DWS_GIT_REL_DIR_LOCAL){
+                    script{
+                        scmVars = git branch: DWS_GIT_BRANCH_LOCAL, credentialsId: DWS_GIT_USER_LOCAL, url: DWS_GIT_PROJECT
+                        GIT_COMMIT = scmVars.GIT_COMMIT
+                        echo 'GIT commit = ' + scmVars.GIT_COMMIT
+                        //Stash the Helm charts directory: this is required because Helm charts can be run only from a dedicate node
+                        //use option -x to get rid of all unuseful files from the chart dir.
+                        
+                    }
+                }
+            }
+        }
+
+       
+        stage("Build docker image and push it to registery"){
+            when { expression { return DWS_BUILD_ACTIONS_LOCAL.contains('Build') && !DWS_IMAGE_TAG_LOCAL?.trim()}}           
+            steps{
+                dir(DWS_GIT_REL_DIR_LOCAL){
+                    withDockerRegistry([credentialsId: DWS_DOCKER_REG_USER_LOCAL, url: DWS_DOCKER_REG_URL_LOCAL]) {
+                        script{
+                            IMAGE_TAG_GIT       = 'BD_'+DWS_BUILD_DATE_LOCAL+'_GIT_'+GIT_COMMIT
+                            IMAGE_TAG_BRANCH    = 'BD_'+DWS_BUILD_DATE_LOCAL+'_BRANCH_'+DWS_GIT_BRANCH_LOCAL                  
+                            IMAGE_TAG_BDATE     = 'BD_'+DWS_BUILD_DATE_LOCAL
+                            IMAGE_TAG_JOB_NUM    = 'JOB_NUMBER_'+BUILD_NUMBER
+
+                            echo 'IMAGE_TAG_GIT = '    +IMAGE_TAG_GIT
+                            echo 'IMAGE_TAG_BRANCH = '  +IMAGE_TAG_BRANCH
+                            echo 'IMAGE_TAG_BDATE = '  +IMAGE_TAG_BDATE
+                            echo 'IMAGE_TAG_JOB_NUM = '  +IMAGE_TAG_JOB_NUM
+                            
+                            def image = docker.build(DWS_DOCKER_REG_LOCAL+'/'+DWS_DOCKER_NAMESPACE_LOCAL+'-'+DWS_DEPLOY_ENV_LOCAL+'/'+DWS_DOCKER_REPO_LOCAL, "-f ${WORKSPACE}/"+ DWS_GIT_REL_DIR+"/Dockerfile ${WORKSPACE}/"+ DWS_GIT_REL_DIR+'/')
+                            //sh 'docker images'
+                            image.push('latest') 
+                            image.push(IMAGE_TAG_GIT)
+                            image.push(IMAGE_TAG_BRANCH)
+                            image.push(IMAGE_TAG_BDATE )  
+                            image.push(IMAGE_TAG_JOB_NUM)  
+                        }
+                    }
+                }
+            }
+        }
+
+        
+        stage("Promation image Deployment"){
+            when { expression { return DWS_BUILD_ACTIONS_LOCAL.contains('Deploy')}} 
+             steps{   
+                script{
+                     IMAGE_TAG_BDATE = DWS_IMAGE_TAG_LOCAL+"#PD"+DWS_BUILD_DATE_LOCAL  
+                     println 'TAG: '+IMAGE_TAG_BDATE
+                }     
+            }  
+        }
+        
+        stage ('Create component to UCD') {
+            //when { expression {return !DWS_IMAGE_TAG_LOCAL?.trim()}}
+            steps{
+                dir(DWS_GIT_DEPLOYMENT_REL_DIR){
+                    script{
+                        //ZIP_DIR = "${WORKSPACE}/"+DWS_GIT_REL_DIR
+                        ZIP_DIR = "${WORKSPACE}"+'/'+DWS_GIT_DEPLOYMENT_REL_DIR+'/'+DWS_CHART_DIR
+                        println 'ZIP_DIR: '+ZIP_DIR
+                    }
+                    withCredentials([usernamePassword(credentialsId: DWS_UCD_USER_LOCAL , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        step([$class: 'UCDeployPublisher',
+                            siteName: 'UCD Taas',
+                            altUser: [
+                                altPassword: hudson.util.Secret.fromString(PASSWORD),
+                                altUsername: USERNAME
+                            ],
+                            component: [
+                                $class: 'com.urbancode.jenkins.plugins.ucdeploy.VersionHelper$VersionBlock',
+                                componentName: DWS_UCD_COMPONENT_LOCAL,
+                                createComponent: [
+                                    $class: 'com.urbancode.jenkins.plugins.ucdeploy.ComponentHelper$CreateComponentBlock'
+                                ],
+                                delivery: [
+                                    $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeliveryHelper$Push',
+                                    pushVersion: IMAGE_TAG_BDATE,
+                                    baseDir: ZIP_DIR,
+                                    fileIncludePatterns: '*.zip',
+                                    fileExcludePatterns: '',
+                                    pushProperties: 'jenkins.server=Local\njenkins.reviewed=false',
+                                    pushDescription: 'Pushed from Jenkins',
+                                    pushIncremental: false
+                                ]
+                            ]
+                        ])
+                    }
+                }
+            }
+        }
+
+        stage("Deploy Helm chart with UCD") {
+            steps{
+                script{
+                    COMP_VERSION = DWS_UCD_COMPONENT_LOCAL+':'+IMAGE_TAG_BDATE
+                    println 'COMP_VERSION: '+COMP_VERSION
+                }
+                withCredentials([usernamePassword(credentialsId: DWS_UCD_USER_LOCAL , usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    step([$class: 'UCDeployPublisher',
+                            siteName: 'UCD Taas',
+                            altUser: [
+                                altPassword: hudson.util.Secret.fromString(PASSWORD),
+                                altUsername: USERNAME
+                            ],
+                            deploy: [
+                                $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeployHelper$DeployBlock',
+                                deployApp: DWS_UCD_DEPLOY_APP_LOCAL,
+                                deployEnv: DWS_DEPLOY_ENV_LOCAL,
+                                deployProc: 'DeployService',
+                                createProcess: [
+                                    $class: 'com.urbancode.jenkins.plugins.ucdeploy.ProcessHelper$CreateProcessBlock',
+                                    processComponent: 'DeployHelmRelease'
+                                ],
+                                deployVersions: COMP_VERSION,
+                                deployOnlyChanged: false
+                            ]
+                    ])
+                }
+            }
+        }
+    }                     
+
+
+post {
+        always {
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: EMAIL_NOTIFICATION, sendToIndividuals: true])
+        } 
+    }                            
+} 
+
+
