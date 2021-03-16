@@ -22,6 +22,6 @@ Create the specific name for the ocnfiguration
 {{- printf "taskform-configmap-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "microapp.envconfigmap" -}}
-{{- printf "taskform-env-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
+{{- printf "digiwas-env-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
