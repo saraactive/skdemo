@@ -1,0 +1,345 @@
+import java.util.*;
+/**
+Build input parameters
+*/
+def TARGET_CLIENT                          = env.Client
+def TARGET_ENV                             = env.Target.toLowerCase()
+def GIT_BRANCH                             = env.GitHubBranch
+def DEPLOY_ACTIONS                         = env.BuildActions
+def DEPLOY_IBMCLOUDRESOURCEGROUP           = env.RESOURCEGROUP.toBoolean()
+def DEPLOY_IBMCLOUDKEYPROTECT              = env.KEYPROTECT.toBoolean()
+def DEPLOY_IBMCLOUDIAM                     = env.IAM.toBoolean()
+def DEPLOY_IBMCLOUDAPPID                   = env.APPID.toBoolean()
+def DEPLOY_IBMCLOUDAPPCONNECT              = env.APPCONNECT.toBoolean()
+def DEPLOY_IBMCLOUDEVENTSTREAM             = env.EVENTSTREAM.toBoolean()
+def DEPLOY_IBMCLOUDREDIS                   = env.REDIS.toBoolean()
+def DEPLOY_IBMCLOUDTRANSLATOR              = env.TRANSLATOR.toBoolean()
+def DEPLOY_IBMCLOUDOBJECTSTORAGE           = env.OBJECTSTORAGE.toBoolean()
+def DEPLOY_IBMCLOUDLOGDNA                  = env.LOGDNA.toBoolean()
+def DEPLOY_IBMCLOUDK8SCLUSTER              = env.K8SCLUSTER.toBoolean()
+def SERVICE_RESOURCEGROUP                  = "resourcegroup"
+def SERVICE_KEYPROTECT                     = "keyprotect"
+def SERVICE_IAM                            = "iam"
+def SERVICE_APPID                          = "appid"
+def SERVICE_APPCONNECT                     = "appconnect"
+def SERVICE_EVENTSTREAM                    = "eventstream"
+def SERVICE_REDIS                          = "redis"
+def SERVICE_TRANSLATOR                     = "translator"
+def SERVICE_OBJECTSTORAGE                  = "objectstorage"
+def SERVICE_LOGDNA                         = "logdna"
+def SERVICE_K8SCLUSTER                     = "k8scluster"
+
+/**
+Target environments enumeration
+*/
+enum DEPLOY_ENVIRONMENTS {
+    CI,DEV,TEST
+}
+
+
+//This pipeline does not execute any actual build, it's an orchestrator and it can run on any node
+node {
+    println "Git Branch to build: "                   + GIT_BRANCH
+    println "Target Client: "                           + TARGET_CLIENT
+    println "Target deployment env: "                   + TARGET_ENV
+ 
+    //Define the build date, it will be used by all inner builds
+    def now = new Date()
+    def buildDate = now.format("yyyyMMdd'T'HHmmss'Z'", TimeZone.getTimeZone('UTC'))
+    println 'Build date: ' + buildDate
+
+    //Used to keep track of failures and assign final status for the build
+    def failures = [:];
+
+    try 
+    {
+        stage('Deploy ResourceGroup'){
+            if(DEPLOY_IBMCLOUDRESOURCEGROUP){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_RESOURCEGROUP)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDRESOURCEGROUP = buildJob.getNumber()
+                println "running deploy for ResourceGroup: " + IBMCLOUDRESOURCEGROUP
+            }
+            else{
+                println "Skipping deploy of ResourceGroup"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  ResourceGroup service has failed: ' + e.toString()
+        failures['Deploy  ResourceGroup service'] = e   
+         }    
+    try 
+    {
+        stage('Deploy KeyProtect'){
+            if(DEPLOY_IBMCLOUDKEYPROTECT){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_KEYPROTECT)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDKEYPROTECT = buildJob.getNumber()
+                println "running deploy for ResourceGroup: " + IBMCLOUDKEYPROTECT
+            }
+            else{
+                println "Skipping deploy of KeyProtect"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  ResourceGroup service has failed: ' + e.toString()
+        failures['Deploy  ResourceGroup service'] = e   
+         }
+ try 
+    {
+        stage('Deploy IAMPOLICY'){
+            if(DEPLOY_IBMCLOUDIAM){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_IAM)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDIAM = buildJob.getNumber()
+                println "running deploy for IAMPolicy: " + IBMCLOUDIAM
+            }
+            else{
+                println "Skipping deploy of IAMPolicy"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  ResourceGroup service has failed: ' + e.toString()
+        failures['Deploy  ResourceGroup service'] = e   
+         }
+    try 
+    {
+        stage('Deploy APPID'){
+            if(DEPLOY_IBMCLOUDAPPID){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_APPID)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDAPPID = buildJob.getNumber()
+                println "running deploy for APPID: " + IBMCLOUDAPPID
+            }
+            else{
+                println "Skipping deploy of APPID"
+            }
+        }
+    }
+
+        catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  APPID service has failed: ' + e.toString()
+        failures['Deploy APPID service'] = e   
+         }     
+
+
+    try 
+    {
+        stage('Deploy APPCONNECT'){
+            if(DEPLOY_IBMCLOUDAPPCONNECT){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_APPCONNECT)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDAPPCONNECT = buildJob.getNumber()
+                println "running deploy for APPCONNECT: " + IBMCLOUDAPPCONNECT
+            }
+            else{
+                println "Skipping deploy of APPCONNECT"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  APPCONNECT service has failed: ' + e.toString()
+        failures['Deploy APPCONNECT service'] = e   
+         }     
+    
+    try 
+    {
+        stage('Deploy EVENTSTREAM'){
+            if(DEPLOY_IBMCLOUDEVENTSTREAM){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_EVENTSTREAM)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDEVENTSTREAM = buildJob.getNumber()
+                println "running deploy for EVENTSTREAM: " + IBMCLOUDEVENTSTREAM
+            }
+            else{
+                println "Skipping deploy of EVENTSTREAM"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  EVENTSTREAM service has failed: ' + e.toString()
+        failures['Deploy EVENTSTREAM service'] = e   
+         }
+
+    try 
+    {
+        stage('Deploy REDIS'){
+            if(DEPLOY_IBMCLOUDREDIS){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_REDIS)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDREDIS = buildJob.getNumber()
+                println "running deploy for REDIS: " + IBMCLOUDREDIS
+            }
+            else{
+                println "Skipping deploy of REDIS"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  REDIS service has failed: ' + e.toString()
+        failures['Deploy REDIS service'] = e   
+         }   
+
+    try 
+    {
+        stage('Deploy TRANSLATOR'){
+            if(DEPLOY_IBMCLOUDTRANSLATOR){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_TRANSLATOR)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDTRANSLATOR = buildJob.getNumber()
+                println "running deploy for TRANSLATOR: " + IBMCLOUDTRANSLATOR
+            }
+            else{
+                println "Skipping deploy of TRANSLATOR"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  TRANSLATOR service has failed: ' + e.toString()
+        failures['Deploy TRANSLATOR service'] = e   
+         }              
+ try 
+    {
+        stage('Deploy OBJECTSTORAGE'){
+            if(DEPLOY_IBMCLOUDOBJECTSTORAGE){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_OBJECTSTORAGE)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDOBJECTSTORAGE = buildJob.getNumber()
+                println "running deploy for OBJECTSTORAGE: " + IBMCLOUDOBJECTSTORAGE
+            }
+            else{
+                println "Skipping deploy of OBJECTSTORAGE"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  OBJECTSTORAGE service has failed: ' + e.toString()
+        failures['Deploy OBJECTSTORAGE service'] = e   
+         }     
+ try 
+    {
+        stage('Deploy LOGDNA'){
+            if(DEPLOY_IBMCLOUDLOGDNA){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_LOGDNA)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDLOGDNA = buildJob.getNumber()
+                println "running deploy for LOGDNA: " + IBMCLOUDLOGDNA
+            }
+            else{
+                println "Skipping deploy of LOGDNA"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  LOGDNA service has failed: ' + e.toString()
+        failures['Deploy LOGDNA service'] = e   
+         }                       
+
+ try 
+    {
+        stage('Deploy K8SCLUSTER'){
+            if(DEPLOY_IBMCLOUDK8SCLUSTER){
+                def buildJob = build job: "/Cognitive-WIM/SafeNotificationApp/WorkingProgress/infraservice-test", parameters:
+                                                        [ 
+                                                        string ( name: 'SAFE_GIT_BRANCH',     value: GIT_BRANCH),
+                                                        string ( name: "SAFE_BUILD_ACTIONS",     value: DEPLOY_ACTIONS),
+                                                        string ( name: "SAFEAPP_ENV",     value: TARGET_ENV),
+                                                        string ( name: "SAFEAPP_CLIENT",     value: TARGET_CLIENT),
+                                                        string ( name: "SAFEAPP_SERVICE",         value: SERVICE_K8SCLUSTER)
+                                                        ], propagate: true, wait: true
+                def IBMCLOUDK8SCLUSTER = buildJob.getNumber()
+                println "running deploy for K8SCLUSTER: " + IBMCLOUDK8SCLUSTER
+            }
+            else{
+                println "Skipping deploy of K8SCLUSTER"
+            }
+        }
+    }
+    catch(e){
+        //Catch  the error to be reported later and continue to build
+        println 'Deploy  K8SCLUSTER service has failed: ' + e.toString()
+        failures['Deploy K8SCLUSTER service'] = e   
+         }                       
+
+
+       BUILD_COLOR = "good"
+    if(failures.size()){
+        println ' BUILD steps failed'
+        currentBuild.result = 'FAILURE' //Required to set the entire build status to failure
+        BUILD_COLOR = "danger"
+    }
+    
+}
