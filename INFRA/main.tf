@@ -1,20 +1,20 @@
 terraform {
   backend "s3" {
-    bucket                      = "bucketname"
-    key                         = "env/terraform.tfstate"
+    bucket                      = "devops-tfstate-bucket"
+    key                         = "dws-aa-pentest/terraform.tfstate"
     region                      = "us-south"           
     skip_region_validation      = true
     skip_credentials_validation = true
     skip_metadata_api_check     = true
-    endpoint                    = "s3.us-south.cloud-object-storage.appdomain.cloud"
-    access_key                  = "XXXXXXXXXXXXXXXX"
-    secret_key                  = "XXXXXXXXXXXXXXX"
+    endpoint                    = "s3.us.cloud-object-storage.appdomain.cloud"
+    access_key                  = "bc62e41905ed487abfd8899c08610aae"
+    secret_key                  = "e316967a08f9b16b9bfc828afe2bdeb25fccde29f3535a99"
   }
 }
 
 
 provider "ibm" {
-        ibmcloud_api_key = "XXXXXXXXXXXXXXXXXXXXXXXX"
+        ibmcloud_api_key = "gGnlCDbSiMPachwUx2mkfK8hIh-1x91cRMBcb8IUPGr9"
 	region = "us-south"
 }
 
@@ -113,9 +113,7 @@ module "ibmcloud_objectstorage" {
     service_objectstorage= var.service_objectstorage
     plan_objectstorage= var.plan_objectstorage
     bucket_logdna= var.bucket_logdna
-    bucket_backend= var.bucket_backend
     bucket_region= var.bucket_region
-    bucket_dbbackup= var.bucket_dbbackup
     storage_class= var.storage_class
     service_instance_name_key_protect= var.service_instance_name_key_protect
     location= var.location
@@ -124,13 +122,4 @@ module "ibmcloud_objectstorage" {
 }
 
 
-module "ibmcloud_iam" {
-    source = "./modules/ibmcloud_iam"
-    resource_group_name= var.resource_group_name
-    access_group_name_devops= var.access_group_name_devops
-    ibm_ids_devops= var.ibm_ids_devops
-    ibm_roles_devops= var.ibm_roles_devops
-    desc_access_devops= var.desc_access_devops
-
-}
 

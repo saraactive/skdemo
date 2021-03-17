@@ -3,8 +3,6 @@ variable "region" {}
 variable "location" {}
 variable "space" {}
 variable "org" {}
-variable "tfstate_bucket_name" {}
-variable "tfstate_path" {}
 variable "resource_group_name"{}
 
 variable "service_key_protect" {
@@ -96,8 +94,6 @@ variable "plan_objectstorage" {
    default = "standard"
 }
 variable "bucket_logdna" {}
-variable "bucket_backend" {}
-variable "bucket_dbbackup" {}
 variable "storage_class" {
    description = "storage class"
    default = "smart"
@@ -108,14 +104,3 @@ variable "object_location" {
    default = "global"
 }
 
-variable "ibm_ids_devops" {
-type    = list
-}
-variable "ibm_roles_devops" {
-type = list
-}
-variable "access_group_name_devops" {}
-variable "desc_access_devops" {
-   description = "IAM Access Group for devops"
-   default = "IAM Access Group for devops" 
-}

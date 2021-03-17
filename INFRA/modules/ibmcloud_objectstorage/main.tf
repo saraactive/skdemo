@@ -16,16 +16,8 @@ resource "ibm_cos_bucket" "standard-objectstorage" {
   resource_instance_id = ibm_resource_instance.service-instance-objectstorage.id
   region_location  = var.bucket_region
   storage_class = var.storage_class
-  key_protect = "crn:v1:bluemix:public:kms:us-south:a/1d174ce6f86f187bf5a54d9f60da6cdb:04428ef2-8912-4c27-8172-df90f63ceffc:key:0c7ce708-c8a6-47ff-bb29-674c43961f49"
+  key_protect = "crn:v1:bluemix:public:kms:us-south:a/696f30460baa4d99b418f85826298ddb:cb8815a5-f523-42c3-b744-4087cbb9ebb5:key:4d83f25f-8d13-48d2-8fa3-abd165d2bb39"
 
 }
 
-resource "ibm_cos_bucket" "standard-objectstorage_dbbackup" {
-  bucket_name = var.bucket_dbbackup
-  resource_instance_id = ibm_resource_instance.service-instance-objectstorage.id
-  region_location  = var.bucket_region
-  storage_class = var.storage_class
-  key_protect = "crn:v1:bluemix:public:kms:us-south:a/1d174ce6f86f187bf5a54d9f60da6cdb:04428ef2-8912-4c27-8172-df90f63ceffc:key:0c7ce708-c8a6-47ff-bb29-674c43961f49"
-
-}
 
