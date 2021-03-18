@@ -1,0 +1,32 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+client: dws
+appGroup: ci
+debug: "*"
+nodenv: development
+replicaCount: 1
+image:
+  repository: us.icr.io/micro-app/taskformserver
+  tag: latest
+  pullPolicy: Always
+  imagePullSecret: microapp-ci-us-icr-io
+service:
+  type: ClusterIP
+  externalPort: 3000
+  internalPort: 3000
+resources:
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+  requests:
+    memory: "512Mi"
+    cpu: "200m"
+tls:
+   secret: dws-ipa-tls
+domain: microapp-ci
+bindservice:
+      objectstorage: microapp-objectstorage
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+

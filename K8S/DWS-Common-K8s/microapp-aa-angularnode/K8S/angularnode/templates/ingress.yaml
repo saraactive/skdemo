@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "microapp.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    ingress.bluemix.net/client-max-body-size: "size=10m"
+    ingress.bluemix.net/redirect-to-https: "True"
+spec:
+  tls:
+  - secretName: {{ .Values.tls.secret }}
+    hosts:
+    - "{{ .Values.domain }}.dws-ipa.com"
+  rules:
+  - host: "{{ .Values.domain }}.dws-ipa.com"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "microapp.fullname" . }}
+          servicePort: {{ .Values.service.externalPort }}
+

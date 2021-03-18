@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket                      = "devops-tfstate-bucket"
-    key                         = "dws-aa-pentest/terraform.tfstate"
+    key                         = "dws-sw-pentest/terraform.tfstate"
     region                      = "us-south"           
     skip_region_validation      = true
     skip_credentials_validation = true
