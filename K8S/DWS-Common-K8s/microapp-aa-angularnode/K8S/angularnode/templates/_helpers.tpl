@@ -19,7 +19,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 Create the specific name for the ocnfiguration
 */}}
 {{- define "microapp.envconfigmap" -}}
-{{- printf "digiwas-env-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
+{{- printf "digiwas-aa-env-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "microapp.configmap" -}}
 {{- printf "nodeproxy-configmap-%s"  .Values.appGroup | trunc 63 | trimSuffix "-" -}}
