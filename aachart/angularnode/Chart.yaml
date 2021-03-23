@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for Kubernetes
+name: aa-angularnode-dev
+version: 1.0.0

@@ -1,0 +1,9 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: simple-ingress
+  namespace: aa-taskform-vdev
+spec:
+  backend:
+    serviceName: aa-angularnode-vdev
+    servicePort: 3000

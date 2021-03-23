@@ -1,0 +1,32 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+client: dws
+appGroup: aadev
+debug: "*"
+nodenv: aadev
+replicaCount: 2
+image:
+  repository: us.icr.io/dws-aa-uat/angularnode
+  tag: latest
+  pullPolicy: Always
+  imagePullSecret: all-icr-io
+service:
+  type: ClusterIP
+  externalPort: 3000
+  internalPort: 3000
+resources:
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+  requests:
+    memory: "512Mi"
+    cpu: "200m"
+tls:
+   secret: dws-ipa-tls
+subdomain: digiwas-aa-dev
+bindservice:
+      appid: dws-aa-appid-dev
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+

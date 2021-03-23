@@ -1,0 +1,32 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+client: dws
+appGroup: skpoc
+debug: "*"
+nodenv: skpoc
+replicaCount: 2
+image:
+  repository: us.icr.io/dws-aa-poc/angularnode
+  tag: latest
+  pullPolicy: Always
+  imagePullSecret: all-icr-io
+service:
+  type: ClusterIP
+  externalPort: 3000
+  internalPort: 3000
+resources:
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+  requests:
+    memory: "512Mi"
+    cpu: "200m"
+tls:
+   secret: dws-aa-tls
+subdomain: digiwas-aa-skpoc
+bindservice:
+      appid: aa-appid-demo
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
